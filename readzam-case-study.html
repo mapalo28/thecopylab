@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study: ReadZam — The Copy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --surface: #161616;
+    --border: #2a2a2a;
+    --accent: #c8f04a;
+    --accent-dim: #8aab2a;
+    --text: #e8e8e4;
+    --muted: #6b6b6b;
+    --red: #ff4444;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Fraunces', serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .back {
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    transition: all 0.2s;
+  }
+
+  .back:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* META BAR */
+  .meta-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+  }
+
+  .meta-item {
+    padding: 14px 24px;
+    border-right: 1px solid var(--border);
+    min-width: fit-content;
+  }
+
+  .meta-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  /* HERO */
+  .hero {
+    padding: 64px 32px 48px;
+    border-bottom: 1px solid var(--border);
+    max-width: 900px;
+  }
+
+  .specimen-tag {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 13px;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.8;
+  }
+
+  /* SECTIONS */
+  .section {
+    padding: 48px 32px;
+    border-bottom: 1px solid var(--border);
+    max-width: 900px;
+  }
+
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 200px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  /* DIAGNOSIS GRID */
+  .diagnosis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 24px;
+  }
+
+  .diag-cell {
+    background: var(--surface);
+    padding: 24px;
+  }
+
+  .diag-cell .label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .diag-cell p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  /* INSIGHT BOX */
+  .insight {
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .insight strong {
+    color: var(--accent);
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* COPY OUTPUT */
+  .copy-output {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-top: 24px;
+  }
+
+  .copy-output-header {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .copy-output-header span { color: var(--accent); }
+
+  .copy-block {
+    padding: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .copy-type {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .headline {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .headline em { font-style: italic; color: var(--accent); }
+
+  .subheadline {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .body-copy {
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--text);
+    max-width: 560px;
+  }
+
+  .body-copy p { margin-bottom: 16px; }
+
+  .cta-area {
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .cta-btn {
+    background: var(--accent);
+    color: #0e0e0e;
+    padding: 12px 28px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .cta-note {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* EMAIL SEQUENCE */
+  .email-block {
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .email-meta {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .email-meta-item {
+    font-size: 11px;
+  }
+
+  .email-meta-item .k { color: var(--muted); }
+  .email-meta-item .v { color: var(--text); }
+
+  .email-subject {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  .email-body {
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--text);
+    max-width: 520px;
+  }
+
+  .email-body p { margin-bottom: 14px; }
+
+  /* ANNOTATIONS */
+  .annotation {
+    background: #1a1a0a;
+    border: 1px solid #3a3a1a;
+    padding: 16px 20px;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #b0b060;
+    line-height: 1.7;
+  }
+
+  .annotation strong {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+    color: #c8c840;
+  }
+
+  /* RESULTS NOTE */
+  .results-note {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    margin-top: 24px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .results-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .results-text { font-size: 13px; line-height: 1.7; color: var(--muted); }
+  .results-text strong { color: var(--text); display: block; margin-bottom: 6px; }
+
+  /* FOOTER */
+  footer {
+    padding: 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+  }
+
+  footer p { font-size: 11px; color: var(--muted); }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .diagnosis-grid { grid-template-columns: 1fr; }
+    header { padding: 16px 20px; }
+    .hero, .section { padding: 40px 20px; }
+    .copy-block, .email-block { padding: 24px 20px; }
+    .meta-bar { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">The Copy <span>Lab™</span></div>
+  <a href="#" class="back">← Portfolio</a>
+</header>
+
+<div class="meta-bar">
+  <div class="meta-item">
+    <span class="meta-label">Specimen</span>
+    <span class="meta-value">002</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Client</span>
+    <span class="meta-value">ReadZam</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Category</span>
+    <span class="meta-value">EdTech / Literacy</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Deliverables</span>
+    <span class="meta-value">Homepage Copy · Welcome Email</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Market</span>
+    <span class="meta-value">Zambia</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Status</span>
+    <span class="meta-value" style="color: var(--accent)">Live</span>
+  </div>
+</div>
+
+<div class="hero">
+  <span class="specimen-tag">▸ Case Study — ReadZam</span>
+  <h1>Teaching a child to read<br>by teaching them to <em>hear.</em></h1>
+  <p class="hero-sub">How we positioned a free Zambian literacy app around the one thing parents fear most — and the one thing competitors miss.</p>
+</div>
+
+<!-- DIAGNOSIS -->
+<div class="section">
+  <div class="section-label">01 — Diagnosis</div>
+  <h2>The brief</h2>
+  <p style="color: var(--muted); font-size: 13px; max-width: 600px; line-height: 1.8;">ReadZam is a free literacy app built for Zambian children. It teaches reading through phonics — sounds first, then words, then sentences. The audience: parents who are worried, and teachers who are stretched thin.</p>
+
+  <div class="diagnosis-grid">
+    <div class="diag-cell">
+      <span class="label">Primary Audience</span>
+      <p>Zambian parents of early readers (ages 4–9) and primary school teachers in both urban and rural areas.</p>
+    </div>
+    <div class="diag-cell">
+      <span class="label">Core Differentiator</span>
+      <p>ReadZam teaches reading through sounds (phonics) — not rote memorisation. Most Zambian children are taught to memorise words whole, not decode them.</p>
+    </div>
+    <div class="diag-cell">
+      <span class="label">Emotional Trigger</span>
+      <p>Fear. Not frustration. Parents aren't annoyed their child can't read — they are afraid. Afraid of dropout. Afraid of a future closed off before it starts.</p>
+    </div>
+    <div class="diag-cell">
+      <span class="label">Barrier to Action</span>
+      <p>Trust. Parents have seen apps before. Free promises that go nowhere. The copy must make them believe this one is different — and that they can use it today.</p>
+    </div>
+  </div>
+
+  <div class="insight">
+    <strong>Analyst's Note</strong>
+    The instinct is to lead with "free" and "fun." That's wrong for this audience. A parent who fears their child will drop out of school doesn't need fun. They need to believe this works. The copy must earn trust before it earns a download.
+  </div>
+</div>
+
+<!-- HOMEPAGE COPY -->
+<div class="section">
+  <div class="section-label">02 — Prescription · Homepage</div>
+  <h2>Homepage copy</h2>
+  <p style="color: var(--muted); font-size: 13px; max-width: 600px; line-height: 1.8; margin-bottom: 8px;">Written for parents and teachers landing on ReadZam for the first time. Goal: move from fear to belief to action in under 60 seconds of reading.</p>
+
+  <div class="copy-output">
+    <div class="copy-output-header">
+      <span>Deliverable — Homepage</span>
+      <span>readzamapp.neocities.org</span>
+    </div>
+
+    <div class="copy-block">
+      <span class="copy-type">Hero — Headline</span>
+      <div class="headline">Your child isn't<br>behind. They just<br>haven't heard the<br><em>sounds yet.</em></div>
+      <div class="subheadline">ReadZam teaches Zambian children to read — the right way. Sound by sound, word by word. Free, forever.</div>
+
+      <div class="body-copy">
+        <p>Reading doesn't start with words on a page. It starts with sounds in the ear. When a child learns to hear that "b" says <em>buh</em> and "a" says <em>ah,</em> they don't memorise reading — they unlock it.</p>
+        <p>That's the difference between a child who struggles every year and one who reads anything put in front of them.</p>
+        <p>ReadZam was built for Zambian children, in Zambia, by someone who knows what our classrooms look like and what our parents carry. No data required to get started. No cost. Ever.</p>
+      </div>
+
+      <div class="cta-area">
+        <div class="cta-btn">Start Reading Free →</div>
+        <span class="cta-note">No download. No sign-up. Open on any phone.</span>
+      </div>
+    </div>
+
+    <div class="copy-block">
+      <span class="copy-type">Section — How It Works</span>
+      <div class="headline" style="font-size: 26px;">Reading is a science.<br>We teach it like one.</div>
+      <div class="body-copy">
+        <p>Most children who struggle to read aren't slow. They were never taught the sounds that letters make. ReadZam fixes that — one sound at a time.</p>
+        <p><strong style="color: var(--accent)">Step 1 — Sounds.</strong> Every letter has a sound. We teach them all, with audio, clearly.</p>
+        <p><strong style="color: var(--accent)">Step 2 — Words.</strong> Sounds become words. Children blend them together until it clicks.</p>
+        <p><strong style="color: var(--accent)">Step 3 — Reading.</strong> Words become sentences. Sentences become stories. Stories become confidence.</p>
+        <p>No guessing. No memorisation. Just the proven method — made free and accessible for every Zambian child.</p>
+      </div>
+    </div>
+
+    <div class="copy-block">
+      <span class="copy-type">Section — Trust / For Teachers</span>
+      <div class="headline" style="font-size: 26px;">For the teacher<br>with 60 pupils<br>and one hour.</div>
+      <div class="body-copy">
+        <p>You don't have time for complicated. ReadZam works the moment you open it — no training, no setup, no login required. Show it on a phone. Project it on a screen. Let a child use it alone in the corner while you work with another group.</p>
+        <p>It does one thing exceptionally: it teaches children to hear the sounds that make reading possible. Everything else follows.</p>
+      </div>
+      <div class="cta-area">
+        <div class="cta-btn">Open ReadZam Now →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="annotation">
+    <strong>Strategic Note — Why This Headline Works</strong>
+    "Your child isn't behind" immediately disarms the guilt and shame a parent carries. It reframes the problem (no sounds taught) without blaming the child or the parent. "They just haven't heard the sounds yet" introduces the phonics mechanism without using the word "phonics" — which means nothing to most parents. The subheadline then delivers the promise, the method, and the price point in one sentence.
+  </div>
+</div>
+
+<!-- EMAIL -->
+<div class="section">
+  <div class="section-label">03 — Prescription · Email</div>
+  <h2>Welcome email — Parent sequence</h2>
+  <p style="color: var(--muted); font-size: 13px; max-width: 600px; line-height: 1.8; margin-bottom: 8px;">Email 1 of 3. Sent immediately after a parent signs up or shares their contact. Goal: deepen trust and get the child's first session started.</p>
+
+  <div class="copy-output">
+    <div class="copy-output-header">
+      <span>Deliverable — Welcome Email · #1</span>
+      <span>Parent Sequence</span>
+    </div>
+
+    <div class="email-block">
+      <div class="email-meta">
+        <div class="email-meta-item"><span class="k">Subject: </span><span class="v">Your child's first sound is waiting.</span></div>
+        <div class="email-meta-item"><span class="k">Preview: </span><span class="v">It takes 3 minutes. Here's where to start.</span></div>
+      </div>
+
+      <div class="email-body">
+        <p>Hello,</p>
+        <p>You found ReadZam because you want more for your child. That already matters more than you know.</p>
+        <p>Here's something most reading programmes won't tell you: reading difficulty is almost never a child problem. It's a teaching gap. Specifically — most children are never taught the sounds that letters make. So they try to memorise thousands of words whole, and eventually, the weight of it breaks them.</p>
+        <p>ReadZam closes that gap. Sound by sound.</p>
+        <p>Today, all I want you to do is one thing:</p>
+        <p><strong>Open ReadZam with your child and do the very first lesson together. It takes 3 minutes.</strong></p>
+        <p>Watch their face when a sound clicks. That moment — when a letter stops being a shape and starts being a sound — is the moment reading begins.</p>
+        <p>You're not hoping anymore. You're starting.</p>
+        <p style="margin-top: 20px;">→ <a href="https://readzamapp.neocities.org" style="color: var(--accent);">Open ReadZam now</a></p>
+        <p style="margin-top: 24px; color: #6b6b6b;">With you,<br>The ReadZam Team<br><em style="font-size: 12px;">Built in Zambia. Built for our children.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="annotation">
+    <strong>Strategic Note — Why "You're not hoping anymore. You're starting."</strong>
+    Parents of struggling readers live in a state of suspended hope — they try things and wait to see. This line does two things: it validates that emotional state (hoping) without dwelling on it, then immediately moves them into agency (starting). It closes the email on momentum, not sentiment.
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="section" style="border-bottom: none;">
+  <div class="section-label">04 — Lab Notes</div>
+  <h2>What this copy is designed to do</h2>
+
+  <div class="results-note">
+    <div class="results-icon">⟳</div>
+    <div class="results-text">
+      <strong>Conversion goal: fear → belief → first session</strong>
+      Every line of this copy moves a worried parent one step closer to opening the app with their child. The headline removes shame. The body copy explains the mechanism simply. The CTA removes all friction ("no download, no sign-up"). The email deepens the relationship and drives the first real action.
+    </div>
+  </div>
+
+  <div class="results-note" style="margin-top: 1px;">
+    <div class="results-icon">◎</div>
+    <div class="results-text">
+      <strong>Why phonics is never mentioned by name</strong>
+      "Phonics" is a technical term. It means something to educators and nothing to most parents. This copy explains the mechanism (sounds → words → reading) without requiring the reader to know the vocabulary. This is the difference between copy written by a subject expert and copy written for a buyer.
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>The Copy Lab™ · Zambia · <a href="#">thecopylab.com</a></p>
+  <p style="font-size: 10px; color: #444;">Specimen 002 · ReadZam Case Study</p>
+</footer>
+
+</body>
+</html>
