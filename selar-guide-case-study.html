@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study: Inside the System — The Copy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --surface: #161616;
+    --border: #2a2a2a;
+    --accent: #c8f04a;
+    --text: #e8e8e4;
+    --muted: #6b6b6b;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Fraunces', serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo { font-size: 12px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+  .logo span { color: var(--accent); }
+
+  .back {
+    font-size: 11px; color: var(--muted); text-decoration: none;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    border: 1px solid var(--border); padding: 6px 14px; transition: all 0.2s;
+  }
+  .back:hover { border-color: var(--accent); color: var(--accent); }
+
+  .meta-bar {
+    display: flex; border-bottom: 1px solid var(--border); overflow-x: auto;
+  }
+  .meta-item { padding: 14px 24px; border-right: 1px solid var(--border); min-width: fit-content; }
+  .meta-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 4px; }
+  .meta-value { font-size: 12px; color: var(--text); }
+
+  .hero {
+    padding: 64px 32px 48px;
+    border-bottom: 1px solid var(--border);
+    max-width: 900px;
+  }
+
+  .specimen-tag { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; display: block; }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 5.5vw, 58px);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub { font-size: 13px; color: var(--muted); max-width: 520px; line-height: 1.8; }
+
+  .section { padding: 48px 32px; border-bottom: 1px solid var(--border); max-width: 900px; }
+
+  .section-label {
+    font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 32px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); max-width: 200px; }
+
+  h2 { font-family: var(--serif); font-size: 28px; font-weight: 300; margin-bottom: 20px; }
+
+  .diag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 24px; }
+  .diag-cell { background: var(--surface); padding: 24px; }
+  .diag-cell .label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; display: block; }
+  .diag-cell p { font-size: 13px; line-height: 1.7; }
+
+  .insight { background: var(--surface); border-left: 3px solid var(--accent); padding: 20px 24px; margin: 24px 0; font-size: 13px; line-height: 1.7; }
+  .insight strong { color: var(--accent); display: block; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+
+  /* THE ORIGINAL COPY — shown as exhibit */
+  .exhibit {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-top: 24px;
+  }
+  .exhibit-header {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); display: flex; justify-content: space-between;
+  }
+  .exhibit-header span { color: var(--accent); }
+  .exhibit-body { padding: 32px; }
+
+  .original-hook {
+    font-family: var(--serif);
+    font-size: clamp(22px, 3.5vw, 36px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .original-hook em { font-style: italic; color: var(--accent); }
+
+  .original-sub {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .copy-body { font-size: 13px; line-height: 1.9; color: var(--text); max-width: 560px; }
+  .copy-body p { margin-bottom: 16px; }
+  .copy-body strong { color: var(--accent); }
+
+  .bullet-list { list-style: none; margin: 16px 0; padding: 0; }
+  .bullet-list li { font-size: 13px; line-height: 1.7; padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; gap: 12px; }
+  .bullet-list li::before { content: '→'; color: var(--accent); flex-shrink: 0; }
+
+  .cta-area { margin-top: 28px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .cta-btn { background: var(--accent); color: #0e0e0e; padding: 12px 28px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; display: inline-block; }
+  .cta-note { font-size: 11px; color: var(--muted); font-style: italic; }
+
+  /* BREAKDOWN */
+  .breakdown { margin-top: 32px; }
+  .breakdown-item { border: 1px solid var(--border); margin-bottom: 1px; }
+  .breakdown-q { padding: 18px 20px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; color: var(--text); cursor: default; }
+  .breakdown-q .tag { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+  .breakdown-a { padding: 0 20px 20px; font-size: 13px; line-height: 1.75; color: var(--muted); border-top: 1px solid var(--border); padding-top: 16px; }
+
+  .annotation { background: #1a1a0a; border: 1px solid #3a3a1a; padding: 16px 20px; margin-top: 20px; font-size: 12px; color: #b0b060; line-height: 1.7; }
+  .annotation strong { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; display: block; margin-bottom: 6px; color: #c8c840; }
+
+  .results-note { background: var(--surface); border: 1px solid var(--border); padding: 24px; margin-top: 1px; display: flex; gap: 20px; align-items: flex-start; }
+  .results-icon { font-size: 24px; flex-shrink: 0; }
+  .results-text { font-size: 13px; line-height: 1.7; color: var(--muted); }
+  .results-text strong { color: var(--text); display: block; margin-bottom: 6px; }
+
+  /* WHAT MAKES THIS RARE */
+  .rare-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 24px; }
+  .rare-cell { background: var(--surface); padding: 24px; }
+  .rare-cell .num { font-family: var(--serif); font-size: 40px; font-weight: 300; color: var(--accent); margin-bottom: 8px; font-style: italic; }
+  .rare-cell p { font-size: 12px; line-height: 1.7; color: var(--muted); }
+  .rare-cell strong { color: var(--text); display: block; margin-bottom: 6px; font-size: 12px; }
+
+  footer { padding: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  footer p { font-size: 11px; color: var(--muted); }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .diag-grid, .rare-grid { grid-template-columns: 1fr; }
+    header { padding: 16px 20px; }
+    .hero, .section { padding: 40px 20px; }
+    .exhibit-body { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">The Copy <span>Lab™</span></div>
+  <a href="index.html" class="back">← Portfolio</a>
+</header>
+
+<div class="meta-bar">
+  <div class="meta-item"><span class="meta-label">Specimen</span><span class="meta-value">003</span></div>
+  <div class="meta-item"><span class="meta-label">Product</span><span class="meta-value">Inside the System</span></div>
+  <div class="meta-item"><span class="meta-label">Category</span><span class="meta-value">Digital Product / Sales Page</span></div>
+  <div class="meta-item"><span class="meta-label">Deliverable</span><span class="meta-value">Sales Page · Product Positioning</span></div>
+  <div class="meta-item"><span class="meta-label">Platform</span><span class="meta-value">Selar · Mobile Money</span></div>
+  <div class="meta-item"><span class="meta-label">Status</span><span class="meta-value" style="color:var(--accent)">Live & Selling</span></div>
+</div>
+
+<div class="hero">
+  <span class="specimen-tag">▸ Case Study — Inside the System</span>
+  <h1>Writing copy for a product<br>nobody knew they<br><em>needed yet.</em></h1>
+  <p class="hero-sub">How a hyper-specific sales page for Zambian MLT graduates found its audience — by saying out loud what every new graduate was quietly thinking.</p>
+</div>
+
+<!-- DIAGNOSIS -->
+<div class="section">
+  <div class="section-label">01 — Diagnosis</div>
+  <h2>The brief</h2>
+  <p style="color:var(--muted);font-size:13px;max-width:600px;line-height:1.8;">A registered Medical Laboratory Technologist with clinical experience in HIV/TB programs needed to launch a paid digital guide on Selar — targeting newly graduated Zambian MLTs. The challenge: the audience didn't know this product existed, and they weren't actively searching for it.</p>
+
+  <div class="diag-grid">
+    <div class="diag-cell">
+      <span class="label">The Audience</span>
+      <p>Newly graduated Zambian MLTs — weeks or months from their first government or private posting. Technically trained. Systemically unprepared.</p>
+    </div>
+    <div class="diag-cell">
+      <span class="label">The Product</span>
+      <p>A practical guide covering the Zambian public health system structure, job-site tools (DISA, reporting), HIV/TB program protocols, and what nobody tells you before day one.</p>
+    </div>
+    <div class="diag-cell">
+      <span class="label">The Real Problem</span>
+      <p>MLT training programs teach clinical skills. They don't teach the system you enter — the bureaucracy, the reporting chains, the politics, the survival skills. Graduates feel this gap acutely but rarely name it.</p>
+    </div>
+    <div class="diag-cell">
+      <span class="label">The Copy Challenge</span>
+      <p>No search demand. No competitors to benchmark. No obvious pain point to exploit. The copy had to surface a latent anxiety — make the reader feel a problem they hadn't fully articulated — then immediately offer the solution.</p>
+    </div>
+  </div>
+
+  <div class="insight">
+    <strong>Analyst's Note — The Latent Anxiety Principle</strong>
+    The hardest copy to write isn't for a product people want but can't afford. It's for a product people need but haven't thought to look for. The job of this sales page was not to close a sale — it was first to create recognition. "Yes. That is exactly what I'm afraid of." Only then could it sell.
+  </div>
+</div>
+
+<!-- THE COPY -->
+<div class="section">
+  <div class="section-label">02 — Prescription · Sales Page</div>
+  <h2>The sales page copy</h2>
+  <p style="color:var(--muted);font-size:13px;max-width:600px;line-height:1.8;margin-bottom:8px;">Written to surface a felt-but-unspoken anxiety in new MLT graduates, then position the guide as the insider knowledge their training withheld.</p>
+
+  <div class="exhibit">
+    <div class="exhibit-header">
+      <span>Deliverable — Sales Page</span>
+      <span>selar.com · Mobile Money Enabled</span>
+    </div>
+
+    <div class="exhibit-body">
+      <div class="original-hook">Your training taught you<br>how to run tests.<br><em>It didn't teach you the<br>system you're about to enter.</em></div>
+      <div class="original-sub">Inside the System: A Zambian MLT's Guide to the Public Health Landscape</div>
+
+      <div class="copy-body">
+        <p>You passed your boards. You got your HPCZ registration. You are, on paper, ready.</p>
+        <p>But nobody told you how the health system actually works. Nobody explained the reporting structures, the tools you'll be expected to use on day one, or what happens when the system and your training contradict each other.</p>
+        <p>Nobody gave you the version that's actually true.</p>
+        <p><strong>This guide does.</strong></p>
+
+        <p style="margin-top:24px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">What's inside:</p>
+        <ul class="bullet-list">
+          <li>How Zambia's public health system is structured — and where you fit in it</li>
+          <li>The tools you'll use on the job: DISA, reporting systems, data flow</li>
+          <li>HIV, TB and STI program protocols from someone who has worked them</li>
+          <li>What the first 90 days actually look like — the parts orientation doesn't cover</li>
+          <li>How to navigate the gap between what you were taught and what the job demands</li>
+        </ul>
+
+        <p style="margin-top:24px;">This isn't a textbook. It's not a study guide. It's what a senior MLT would tell you the night before your first posting — if they were being completely honest.</p>
+        <p>Written by a registered Zambian MLT with hands-on experience in HIV programs and community health. This is insider knowledge. And now it's yours.</p>
+      </div>
+
+      <div class="cta-area">
+        <div class="cta-btn">Get the Guide →</div>
+        <span class="cta-note">Pay via MTN or Airtel Mobile Money · Instant download</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="annotation">
+    <strong>Strategic Note — Why the Opening Line Works</strong>
+    "Your training taught you how to run tests. It didn't teach you the system you're about to enter." This line works because it validates what the reader already knows (their training was clinical, not systemic) while implying the guide fills that exact gap. It doesn't attack the training — it extends it. The reader doesn't feel criticised. They feel seen. That's the emotional state that opens a wallet.
+  </div>
+</div>
+
+<!-- BREAKDOWN -->
+<div class="section">
+  <div class="section-label">03 — Under the Microscope</div>
+  <h2>Every decision, explained</h2>
+
+  <div class="breakdown">
+    <div class="breakdown-item">
+      <div class="breakdown-q">
+        <span>"Nobody gave you the version that's actually true."</span>
+        <span class="tag">Line Analysis</span>
+      </div>
+      <div class="breakdown-a">This line does something dangerous carefully — it implies the official training narrative is incomplete without directly attacking the institutions. New graduates carry loyalty to their schools and lecturers. Calling the system a lie would trigger defensiveness. "The version that's actually true" validates their suspicion without requiring them to betray anyone. They can agree with you and still respect their training.</div>
+    </div>
+
+    <div class="breakdown-item">
+      <div class="breakdown-q">
+        <span>"What a senior MLT would tell you if they were being completely honest."</span>
+        <span class="tag">Line Analysis</span>
+      </div>
+      <div class="breakdown-a">This frames the guide not as content but as access. The reader isn't buying a PDF — they're buying a conversation with someone who has already survived what they're about to face. "Completely honest" signals the guide contains the things that don't make it into official channels. It creates anticipation and justifies the price point: you're not paying for pages, you're paying for insider truth.</div>
+    </div>
+
+    <div class="breakdown-item">
+      <div class="breakdown-q">
+        <span>Mobile Money in the CTA</span>
+        <span class="tag">Conversion Decision</span>
+      </div>
+      <div class="breakdown-a">The target buyer is a newly graduated Zambian MLT — likely in their early 20s, possibly awaiting their first salary, almost certainly without a credit card. MTN and Airtel Mobile Money removes the single biggest conversion barrier: payment friction. Naming it explicitly in the CTA ("Pay via MTN or Airtel Mobile Money") eliminates the hesitation of "but how do I actually pay?" before it forms. Every friction point costs sales.</div>
+    </div>
+
+    <div class="breakdown-item">
+      <div class="breakdown-q">
+        <span>No price mentioned in the copy</span>
+        <span class="tag">Strategic Omission</span>
+      </div>
+      <div class="breakdown-a">The copy builds desire before the reader sees a number. By the time they reach the CTA, they've already mentally decided they want this. Price then becomes a negotiation between what they want and what it costs — not a filter applied before desire forms. This is standard direct-response discipline: earn the sale before you ask for the money.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT MAKES THIS RARE -->
+<div class="section">
+  <div class="section-label">04 — What Makes This Rare</div>
+  <h2>The three things most copywriters can't do here</h2>
+
+  <div class="rare-grid">
+    <div class="rare-cell">
+      <div class="num">01</div>
+      <strong>Real insider credibility</strong>
+      <p>The writer is a registered Zambian MLT with HIV/TB clinical experience. The copy doesn't perform authority — it has it. Readers recognise the difference immediately.</p>
+    </div>
+    <div class="rare-cell">
+      <div class="num">02</div>
+      <strong>Latent market identification</strong>
+      <p>No existing search demand. No competitor to copy. The copy had to create the category and sell into it simultaneously — a rare double challenge that most generalist copywriters fail.</p>
+    </div>
+    <div class="rare-cell">
+      <div class="num">03</div>
+      <strong>Market-appropriate payment design</strong>
+      <p>Mobile money integration wasn't an afterthought. It was a core conversion decision made because the writer understood exactly who was buying and how they live.</p>
+    </div>
+  </div>
+</div>
+
+<!-- LAB NOTES -->
+<div class="section" style="border-bottom:none;">
+  <div class="section-label">05 — Lab Notes</div>
+  <h2>What this case study proves</h2>
+
+  <div class="results-note">
+    <div class="results-icon">◎</div>
+    <div class="results-text">
+      <strong>Copy can create demand, not just capture it</strong>
+      The standard model of copywriting assumes the buyer is already looking. This case study demonstrates something harder — writing that makes a reader recognise a need they hadn't named, then immediately offers the solution. This is the difference between order-taking copy and persuasion.
+    </div>
+  </div>
+
+  <div class="results-note">
+    <div class="results-icon">⟳</div>
+    <div class="results-text">
+      <strong>Niche specificity is a feature, not a limitation</strong>
+      "Zambian MLT graduates" is a small audience. But copy written precisely for a small audience converts better than copy written vaguely for everyone. The reader feels addressed, not targeted. That feeling is what closes the sale.
+    </div>
+  </div>
+
+  <div class="results-note">
+    <div class="results-icon">▸</div>
+    <div class="results-text">
+      <strong>The writer and the strategist were the same person</strong>
+      This case study was self-directed: audience research, product conception, pricing strategy, payment infrastructure, and copy — all from a single practitioner. For clients, that means you're not briefing a writer. You're engaging a strategist who also writes.
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>The Copy Lab™ · Zambia · <a href="index.html">Back to Portfolio</a></p>
+  <p style="font-size:10px;color:#444;">Specimen 003 · Inside the System</p>
+</footer>
+
+</body>
+</html>
