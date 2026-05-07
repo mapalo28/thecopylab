@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study: Prestige Mobile Cocktail Bars — The Copy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --surface: #161616;
+    --border: #2a2a2a;
+    --accent: #c8f04a;
+    --text: #e8e8e4;
+    --muted: #6b6b6b;
+    --gold: #d4a832;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Fraunces', serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo { font-size: 12px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+  .logo span { color: var(--accent); }
+
+  .back {
+    font-size: 11px; color: var(--muted); text-decoration: none;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    border: 1px solid var(--border); padding: 6px 14px; transition: all 0.2s;
+  }
+  .back:hover { border-color: var(--accent); color: var(--accent); }
+
+  .meta-bar { display: flex; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .meta-item { padding: 14px 24px; border-right: 1px solid var(--border); min-width: fit-content; }
+  .meta-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 4px; }
+  .meta-value { font-size: 12px; color: var(--text); }
+
+  .hero {
+    padding: 64px 32px 48px;
+    border-bottom: 1px solid var(--border);
+    max-width: 900px;
+  }
+
+  .specimen-tag { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; display: block; }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 5.5vw, 58px);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub { font-size: 13px; color: var(--muted); max-width: 520px; line-height: 1.8; }
+
+  .section { padding: 48px 32px; border-bottom: 1px solid var(--border); max-width: 900px; }
+
+  .section-label {
+    font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 32px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); max-width: 200px; }
+
+  h2 { font-family: var(--serif); font-size: 28px; font-weight: 300; margin-bottom: 20px; }
+
+  .diag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 24px; }
+  .diag-cell { background: var(--surface); padding: 24px; }
+  .diag-cell .label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; display: block; }
+  .diag-cell p { font-size: 13px; line-height: 1.7; }
+
+  .insight { background: var(--surface); border-left: 3px solid var(--accent); padding: 20px 24px; margin: 24px 0; font-size: 13px; line-height: 1.7; }
+  .insight strong { color: var(--accent); display: block; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+
+  .exhibit { background: var(--surface); border: 1px solid var(--border); margin-top: 24px; }
+  .exhibit-header { padding: 12px 20px; border-bottom: 1px solid var(--border); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; }
+  .exhibit-header span { color: var(--accent); }
+  .exhibit-body { padding: 32px; }
+
+  .copy-type { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; display: block; }
+
+  .headline { font-family: var(--serif); font-size: clamp(26px, 4vw, 42px); font-weight: 700; line-height: 1.15; color: var(--text); margin-bottom: 16px; }
+  .headline em { font-style: italic; color: var(--accent); }
+
+  .subheadline { font-family: var(--serif); font-size: 17px; font-weight: 300; font-style: italic; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+
+  .copy-body { font-size: 13px; line-height: 1.9; color: var(--text); max-width: 560px; }
+  .copy-body p { margin-bottom: 16px; }
+  .copy-body strong { color: var(--accent); }
+
+  .cta-area { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .cta-primary { background: var(--gold); color: #0e0e0e; padding: 14px 32px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; display: inline-block; }
+  .cta-secondary { background: transparent; color: var(--text); padding: 14px 32px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--border); display: inline-block; }
+
+  /* DELIVERABLES LIST */
+  .deliverables { list-style: none; margin-top: 24px; border: 1px solid var(--border); }
+  .deliverables li { padding: 16px 20px; border-bottom: 1px solid var(--border); font-size: 13px; display: flex; gap: 16px; align-items: flex-start; }
+  .deliverables li:last-child { border-bottom: none; }
+  .deliverables li .d-num { color: var(--accent); font-size: 10px; letter-spacing: 0.1em; flex-shrink: 0; padding-top: 2px; }
+  .deliverables li .d-text { line-height: 1.6; }
+  .deliverables li .d-text strong { color: var(--text); display: block; margin-bottom: 2px; }
+  .deliverables li .d-text span { color: var(--muted); font-size: 12px; }
+
+  /* TESTIMONIAL */
+  .testimonial {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 40px 32px;
+    margin-top: 24px;
+    text-align: center;
+    position: relative;
+  }
+  .testimonial::before {
+    content: '"';
+    font-family: var(--serif);
+    font-size: 120px;
+    color: var(--accent);
+    opacity: 0.15;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    line-height: 1;
+  }
+  .testimonial-text {
+    font-family: var(--serif);
+    font-size: clamp(22px, 3.5vw, 36px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--text);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .testimonial-text em { color: var(--accent); font-style: normal; }
+  .testimonial-source { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+
+  .annotation { background: #1a1a0a; border: 1px solid #3a3a1a; padding: 16px 20px; margin-top: 20px; font-size: 12px; color: #b0b060; line-height: 1.7; }
+  .annotation strong { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; display: block; margin-bottom: 6px; color: #c8c840; }
+
+  /* BEFORE/AFTER */
+  .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 24px; }
+  .ba-cell { background: var(--surface); padding: 24px; }
+  .ba-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px; display: block; }
+  .ba-label.before { color: #ff6b6b; }
+  .ba-label.after { color: var(--accent); }
+  .ba-cell ul { list-style: none; }
+  .ba-cell ul li { font-size: 12px; line-height: 1.7; color: var(--muted); padding: 6px 0; border-bottom: 1px solid var(--border); display: flex; gap: 10px; }
+  .ba-cell ul li:last-child { border-bottom: none; }
+  .ba-cell ul li::before { flex-shrink: 0; }
+  .before ul li::before { content: '✕'; color: #ff6b6b; }
+  .after ul li::before { content: '✓'; color: var(--accent); }
+
+  .results-note { background: var(--surface); border: 1px solid var(--border); padding: 24px; margin-top: 1px; display: flex; gap: 20px; align-items: flex-start; }
+  .results-icon { font-size: 24px; flex-shrink: 0; }
+  .results-text { font-size: 13px; line-height: 1.7; color: var(--muted); }
+  .results-text strong { color: var(--text); display: block; margin-bottom: 6px; }
+
+  footer { padding: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  footer p { font-size: 11px; color: var(--muted); }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .diag-grid, .before-after { grid-template-columns: 1fr; }
+    header { padding: 16px 20px; }
+    .hero, .section { padding: 40px 20px; }
+    .exhibit-body { padding: 24px 20px; }
+    .testimonial { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">The Copy <span>Lab™</span></div>
+  <a href="index.html" class="back">← Portfolio</a>
+</header>
+
+<div class="meta-bar">
+  <div class="meta-item"><span class="meta-label">Specimen</span><span class="meta-value">001</span></div>
+  <div class="meta-item"><span class="meta-label">Client</span><span class="meta-value">Prestige Mobile Cocktail Bars</span></div>
+  <div class="meta-item"><span class="meta-label">Category</span><span class="meta-value">Hospitality / Events · Web + Copy</span></div>
+  <div class="meta-item"><span class="meta-label">Deliverable</span><span class="meta-value">Full Website Build · All Copy</span></div>
+  <div class="meta-item"><span class="meta-label">Market</span><span class="meta-value">Zambia</span></div>
+  <div class="meta-item"><span class="meta-label">Type</span><span class="meta-value" style="color:var(--accent)">Paid Client Work</span></div>
+</div>
+
+<div class="hero">
+  <span class="specimen-tag">▸ Case Study — Prestige Mobile Cocktail Bars</span>
+  <h1>From word-of-mouth<br>to <em>booked online.</em></h1>
+  <p class="hero-sub">A Zambian mobile cocktail bar business had no web presence, no way to capture leads, and no digital proof of their service. We built everything from zero — the site, the copy, the brand voice online.</p>
+</div>
+
+<!-- DIAGNOSIS -->
+<div class="section">
+  <div class="section-label">01 — Diagnosis</div>
+  <h2>The brief</h2>
+  <p style="color:var(--muted);font-size:13px;max-width:600px;line-height:1.8;">Prestige Mobile Cocktail Bars provides premium bar experiences for weddings, birthdays, corporate events and private celebrations across Zambia. They had a real, operating business — but zero digital presence. No website. No way for potential clients to find them, vet them, or book them online.</p>
+
+  <div class="diag-grid">
+    <div class="diag-cell">
+      <span class="label">The Problem</span>
+      <p>A premium events business surviving entirely on referrals and word-of-mouth. No website meant no credibility for new clients who hadn't heard of them, and no way to capture enquiries at scale.</p>
+    </div>
+    <div class="diag-cell">
+      <span class="label">The Audience</span>
+      <p>Couples planning weddings, corporate event coordinators, and individuals organising private celebrations in Zambia — all making high-consideration, high-spend decisions.</p>
+    </div>
+    <div class="diag-cell">
+      <span class="label">The Stakes</span>
+      <p>Events bookings are trust-heavy. A client spending significant money on their wedding bar needs to feel confident before they ever make contact. The website had to do that qualifying work automatically.</p>
+    </div>
+    <div class="diag-cell">
+      <span class="label">The Deliverable</span>
+      <p>A full website build from scratch — design, development, and all copy written and deployed. Zero existing assets. Built entirely to brief.</p>
+    </div>
+  </div>
+
+  <div class="insight">
+    <strong>Analyst's Note — The Credibility Gap</strong>
+    In high-consideration purchases like event services, the website isn't where people decide to book — it's where they decide whether to even make contact. A weak or absent web presence signals risk to a buyer spending real money on an important occasion. The primary job of this site was not to sell. It was to eliminate doubt before the first conversation.
+  </div>
+</div>
+
+<!-- BEFORE / AFTER -->
+<div class="section">
+  <div class="section-label">02 — Before & After</div>
+  <h2>What changed</h2>
+
+  <div class="before-after">
+    <div class="ba-cell before">
+      <span class="ba-label before">Before — The Gap</span>
+      <ul>
+        <li>No website or digital presence</li>
+        <li>New clients had no way to vet the business</li>
+        <li>No lead capture — enquiries depended on referrals</li>
+        <li>No gallery to showcase past events</li>
+        <li>No clear service offering or pricing signal</li>
+        <li>Business invisible to anyone searching online</li>
+      </ul>
+    </div>
+    <div class="ba-cell after">
+      <span class="ba-label after">After — The Build</span>
+      <ul>
+        <li>Full professional website, live and indexed</li>
+        <li>Clear brand voice: premium, warm, celebratory</li>
+        <li>Quote request CTA capturing leads directly</li>
+        <li>Gallery section showcasing real event photography</li>
+        <li>Services clearly communicated across event types</li>
+        <li>WhatsApp integration for immediate client contact</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- THE COPY -->
+<div class="section">
+  <div class="section-label">03 — Prescription · Website Copy</div>
+  <h2>The homepage copy</h2>
+  <p style="color:var(--muted);font-size:13px;max-width:600px;line-height:1.8;margin-bottom:8px;">Written to position Prestige as the premium choice for Zambian event clients — conveying elegance, professionalism, and warmth in a market where most competitors have no web presence at all.</p>
+
+  <div class="exhibit">
+    <div class="exhibit-header">
+      <span>Deliverable — Homepage</span>
+      <span>prestigemobilecocktailbars.com</span>
+    </div>
+
+    <div class="exhibit-body">
+      <span class="copy-type">Hero — Headline & Subheadline</span>
+      <div class="headline">Prestige Mobile<br>Cocktail Bar <em>Experience</em></div>
+      <div class="subheadline">For weddings, birthdays, corporate events & private celebrations.</div>
+
+      <div class="copy-body">
+        <p>Your event deserves more than a drinks table in the corner. It deserves a bar experience — one that becomes part of the memory.</p>
+        <p>Prestige Mobile Cocktail Bars brings a fully equipped, professionally staffed, beautifully presented bar to your venue. We handle everything. You focus on celebrating.</p>
+        <p><strong>Weddings.</strong> Your guests remember two things: the ceremony and the party. We make sure the party is unforgettable.</p>
+        <p><strong>Corporate Events.</strong> Impress your clients, reward your team. A premium bar service signals that your organisation takes its occasions seriously.</p>
+        <p><strong>Private Celebrations.</strong> Birthdays, anniversaries, launches. Whatever the occasion — arrive, set up, serve, leave. Completely handled.</p>
+      </div>
+
+      <div class="cta-area">
+        <div class="cta-primary">Request a Quote</div>
+        <div class="cta-secondary">View Gallery</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="annotation">
+    <strong>Strategic Note — Two CTAs, Two Buyer Types</strong>
+    The "Request a Quote" CTA targets the decided buyer — someone ready to move forward. "View Gallery" targets the undecided buyer who needs more social proof before committing. Offering both captures both stages of the decision journey. A single CTA would lose one of them.
+  </div>
+</div>
+
+<!-- DELIVERABLES -->
+<div class="section">
+  <div class="section-label">04 — Full Scope</div>
+  <h2>Everything delivered</h2>
+
+  <ul class="deliverables">
+    <li>
+      <span class="d-num">01</span>
+      <div class="d-text">
+        <strong>Full Website Build</strong>
+        <span>Complete design and development from zero. No template. Built to the client's brand — gold, dark, premium aesthetic consistent with the service positioning.</span>
+      </div>
+    </li>
+    <li>
+      <span class="d-num">02</span>
+      <div class="d-text">
+        <strong>All Website Copy</strong>
+        <span>Homepage, services section, about section, and all CTAs. Brand voice defined and applied consistently throughout — warm but premium, celebratory but professional.</span>
+      </div>
+    </li>
+    <li>
+      <span class="d-num">03</span>
+      <div class="d-text">
+        <strong>Lead Capture System</strong>
+        <span>Quote request functionality and WhatsApp integration — turning website visitors into direct enquiries without requiring the client to manage a complex CRM.</span>
+      </div>
+    </li>
+    <li>
+      <span class="d-num">04</span>
+      <div class="d-text">
+        <strong>Gallery Section</strong>
+        <span>Visual proof of service — event photography presented to build trust with new clients who haven't experienced the service through referral.</span>
+      </div>
+    </li>
+    <li>
+      <span class="d-num">05</span>
+      <div class="d-text">
+        <strong>Mobile-First Responsive Design</strong>
+        <span>Built for the Zambian market where the majority of web browsing happens on mobile. Full functionality and visual quality across all screen sizes.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- TESTIMONIAL -->
+<div class="section">
+  <div class="section-label">05 — Client Feedback</div>
+  <h2>What the client said</h2>
+
+  <div class="testimonial">
+    <div class="testimonial-text">
+      "It's <em>beautiful.</em>"
+    </div>
+    <div class="testimonial-source">— Client, Prestige Mobile Cocktail Bars · Zambia</div>
+  </div>
+
+  <div class="annotation" style="margin-top:16px;">
+    <strong>Why This Matters</strong>
+    In the events industry, aesthetic is everything. A client who says their website is "beautiful" is confirming that the visual and copy choices accurately represent the premium experience they deliver. That alignment — between what the site promises and what the business provides — is the definition of effective brand copy.
+  </div>
+</div>
+
+<!-- LAB NOTES -->
+<div class="section" style="border-bottom:none;">
+  <div class="section-label">06 — Lab Notes</div>
+  <h2>What this project proves</h2>
+
+  <div class="results-note">
+    <div class="results-icon">◎</div>
+    <div class="results-text">
+      <strong>Full-stack delivery — copy and code</strong>
+      This project required both a working website and copy that sold. Most freelancers offer one or the other. Delivering both from a single practitioner means the brand voice is consistent from the first line of code to the last line of copy — because the same person made every decision.
+    </div>
+  </div>
+
+  <div class="results-note">
+    <div class="results-icon">⟳</div>
+    <div class="results-text">
+      <strong>Built for a market most agencies ignore</strong>
+      Zambian SMEs are underserved by professional web and copy services. Most can't access or afford international agencies. This project demonstrates what's possible when a practitioner who understands the local market builds for it directly — professional output, locally grounded strategy.
+    </div>
+  </div>
+
+  <div class="results-note">
+    <div class="results-icon">▸</div>
+    <div class="results-text">
+      <strong>From invisible to bookable</strong>
+      A business that existed only in referral networks now has a permanent, professional digital presence. Every future client who searches for mobile cocktail bar services in Zambia can find, vet, and contact Prestige — without a single additional referral needed.
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>The Copy Lab™ · Zambia · <a href="index.html">Back to Portfolio</a></p>
+  <p style="font-size:10px;color:#444;">Specimen 001 · Prestige Mobile Cocktail Bars</p>
+</footer>
+
+</body>
+</html>
